@@ -42,3 +42,30 @@ short_class < long_class
 str(long_class)
 
 str(long_class.total_seconds())
+
+
+import arrow
+
+t = arrow.utcnow()
+t.year
+t.month
+
+ny = t.to('America/New_York')
+lc = arrow.now('local')
+
+s = '2023-02-12 14:36'
+s.format('HH:mm ss ZZZ')
+arrow.get(s)
+
+t = arrow.get(1_000_000)
+t.humanize()
+
+import datetime
+
+lc - arrow.get(s)
+
+start = arrow.utcnow()
+end = arrow.utcnow() + datetime.timedelta(hours=6)
+
+for one_minute in arrow.Arrow.span_range('hour', start, end):
+    print(one_minute)
