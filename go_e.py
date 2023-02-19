@@ -1,7 +1,6 @@
 import pandas as pd
 import random
 
-
 def ask_her():
     print('Enter the five akas: ')
     aka_1, aka_2, aka_3, aka_4, aka_5 = [str(x) for x in input("Enter five akas: \n").split(', ')]
@@ -55,15 +54,32 @@ def let_go():
     del dtt
     de = {'Escort': [aka_1, aka_2, aka_3, aka_4,aka_5],'Summ points': e}
     ded = pd.DataFrame(de).set_index('Escort')
-    print(ded[ded['Summ points'] > 11])
+    m3 = ded[ded['Summ points'] > 11]
+    if len(m3) == 0:
+        print("Consider to repeat the game")
+    return m3
+
+def last_call():
+    r1 = _just_print(' \n First run!')
+    r2 = _just_print(' \n Second run!')
+    r3 = _just_print(' \n Last run!')
+    rall = pd.concat([r1, r2, r3], axis=1)   
+    rall.columns = ['Round 1', 'Round 2', 'Round 3']
+    rall['Sum of all'] = rall.sum(axis=1)
+    rall.sort_values(by='Sum of all', ascending=False, inplace=True)
+    return rall
+
+def _just_print(arg0):
+    print(f"{'--' * 10}{arg0}")
+    result = let_go()
+    if len(result) > 0:
+        print(result)
+    else: 
+        print('No results...')
+    return result    
     
 
 if __name__ == "__main__":
-    print(f"{'--'*10} \n First run!")
-    let_go()
-    print(f"{'--'*10} \n Second run!")
-    let_go()
-    print(f"{'--'*10} \n Last run!")
-    let_go()
-
-    print('Make your selection and enjoy!')
+    f = last_call()
+    print(f)
+    print('\n Make your selection and enjoy!')
