@@ -1,3 +1,5 @@
+# https://realpython.com/python-assignment-operator/
+
 counter = 0
 celsius = 25
 fahrenheit = (celsius * 9 / 5) + 32
@@ -80,6 +82,77 @@ print(head,*bo)
 *_, last = a
 
 
+class User:
+    pass
+
+users: list[User] = []
+users
+
+"""Now you’re clearly communicating that users will hold a list of User instances. Using type hints in assignment statements that initialize variables to empty collection data types—such as lists, tuples, or dictionaries—allows you to provide more context about how your code works. This practice will make your code more explicit and less error-prone.
+"""
+
+class Point:
+
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, value):
+        try:
+            self._x = float(value)
+        except ValueError:
+            raise ValueError('"x" must be a number') from None
+
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self, value):
+        try:
+            self._y = float(value)
+        except ValueError:
+            raise ValueError('"y" must be a number') from None
+
+
+# from point import Point
+
+point_1 = Point()
+point_1.x = 1
+point_1.y = 2
+point_1.x, point_1.y
+
+point_2 = Point()
+point_2.x = "one"
+
+
+from collections import UserDict
+
+class LowerCasedDict(UserDict):
+    def __setitem__(self, key, value):
+        key = key.lower()
+        super().__setitem__(key, value)
+
+
+numbers = LowerCasedDict()
+numbers["ONE"] = 1
+numbers["Two"] = 2
+numbers["Three"] = 3
+
+numbers
+
+
+def greet(name):
+   print(id(name))
+   print(f"Hello, {name}!")
+
+greet
+
+id(greet)
+
+fellow = "Pythonista"
+greet(fellow)
+
+id(fellow)
 
 
 
