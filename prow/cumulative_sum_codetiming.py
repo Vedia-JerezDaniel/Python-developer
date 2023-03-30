@@ -1,7 +1,6 @@
 import pandas as pd
 from codetiming import Timer
 
-
 def loop_cumsum(products):
     cumulative_sum = []
     for product in products.itertuples():
@@ -12,16 +11,15 @@ def loop_cumsum(products):
             cumulative_sum.append(income)
     return products.assign(cumulative_income=cumulative_sum)
 
-
 def pandas_cumsum(products):
     return products.assign(
         income=lambda df: df["sales"] * df["unit_price"],
         cumulative_income=lambda df: df["income"].cumsum(),
     ).drop(columns="income")
 
-
 for func in [loop_cumsum, pandas_cumsum]:
-    products = pd.read_csv("resources/products.csv")
-    products = pd.concat(products for _ in range(1000))
+    products = pd.read_csv("prow/products.csv")
+    products = pd.concat(products for _ in range(100000))
+    print(products.shape)
     with Timer(name=func.__name__, text="{name:20}: {milliseconds:.2f} ms"):
         func(products)

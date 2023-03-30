@@ -2,8 +2,9 @@
 import pandas as pd
 
 # %% Get the cumulative sum with .itertuples()
-products = pd.read_csv("resources/products.csv")
-
+products = pd.read_csv("products.csv")
+products.head()
+# %%
 cumulative_sum = []
 
 for product in products.itertuples():
@@ -18,7 +19,7 @@ products = products.assign(cumulative_income=cumulative_sum)
 # %% To get cumulative sum, instead of looping, you can create intermediate
 # columns and use .cumsum()
 products = (
-    pd.read_csv("resources/products.csv")
+    pd.read_csv("products.csv")
     .assign(
         income=lambda df: df["sales"] * df["unit_price"],
         cumulatative_income=lambda df: df["income"].cumsum(),
