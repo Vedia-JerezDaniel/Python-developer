@@ -25,36 +25,27 @@ app.layout = html.Div(
         html.Div(
             children=[
                 html.P(children="🥑", className="header-emoji"),
-                html.H1(
-                    children="Avocado Analytics", className="header-title"
+                html.H1(children="Avocado Analytics", className="header-title"
                 ),
                 html.P(
                     children=(
                         "Analyze the behavior of avocado prices and the number"
-                        " of avocados sold in the US between 2015 and 2018"
-                    ),
-                    className="header-description",
-                ),
-            ],
-            className="header",
-        ),
+                        " of avocados sold in the US between 2015 & 2018"
+                    ),className="header-description",
+                ),],className="header",),
         html.Div(
             children=[
-                html.Div(
-                    children=dcc.Graph(
+                html.Div(children=dcc.Graph(
                         id="price-chart",
                         config={"displayModeBar": False},
                         figure={
                             "data": [
-                                {
-                                    "x": data["Date"],
+                                {   "x": data["Date"],
                                     "y": data["AveragePrice"],
                                     "type": "lines",
                                     "hovertemplate": (
                                         "$%{y:.2f}<extra></extra>"
-                                    ),
-                                },
-                            ],
+                                    ),},],
                             "layout": {
                                 "title": {
                                     "text": "Average Price of Avocados",
@@ -67,22 +58,16 @@ app.layout = html.Div(
                                     "fixedrange": True,
                                 },
                                 "colorway": ["#17b897"],
-                            },
-                        },
-                    ),
-                    className="card",
+                            },},),className="card",
                 ),
-                html.Div(
-                    children=dcc.Graph(
+                html.Div(children=dcc.Graph(
                         id="volume-chart",
                         config={"displayModeBar": False},
                         figure={
-                            "data": [
-                                {
+                            "data": [{
                                     "x": data["Date"],
                                     "y": data["Total Volume"],
-                                    "type": "lines",
-                                },
+                                    "type": "lines",},
                             ],
                             "layout": {
                                 "title": {

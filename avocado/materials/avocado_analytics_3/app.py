@@ -1,11 +1,15 @@
+# https://realpython.com/python-dash/#add-interactivity-to-your-dash-apps-using-callbacks
+
+
 import pandas as pd
 from dash import Dash, Input, Output, dcc, html
 
 data = (
-    pd.read_csv("avocado.csv")
+    pd.read_csv("materials/avocado_analytics_3/avocado.csv")
     .assign(Date=lambda data: pd.to_datetime(data["Date"], format="%Y-%m-%d"))
     .sort_values(by="Date")
 )
+
 regions = data["region"].sort_values().unique()
 avocado_types = data["type"].sort_values().unique()
 
@@ -18,6 +22,7 @@ external_stylesheets = [
         "rel": "stylesheet",
     },
 ]
+
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Avocado Analytics: Understand Your Avocados!"
 
@@ -123,6 +128,7 @@ app.layout = html.Div(
     Input("date-range", "start_date"),
     Input("date-range", "end_date"),
 )
+
 def update_charts(region, avocado_type, start_date, end_date):
     filtered_data = data.query(
         "region == @region and type == @avocado_type"
