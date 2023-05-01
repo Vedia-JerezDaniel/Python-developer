@@ -124,3 +124,120 @@ fruits |= {"banana"}  # Augmented union
 fruits = {"apple", "orange"}
 fruits &= {"apple"}  # Augmented intersection
 fruits
+
+
+number = 42
+another_number = number
+number += 1
+number
+another_number
+
+fruits = ["apple"]
+another_fruits = fruits
+fruits += ["banana"]
+fruits
+another_fruits
+
+
+def squares_of(numbers):
+    return [number ** 2 for number in numbers]
+
+sample = [2, 3, 4]
+squares_of(sample)
+
+counter = 0
+
+def increment():
+    global counter
+    counter += 1
+
+increment()
+counter
+
+
+def append_to(item, target=None):
+    if target is None:
+        target = []
+    target.append(item)
+    return target
+
+append_to(1)
+append_to(2)
+append_to(3)
+
+
+class Point:
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+
+    @property
+    def x(self):
+        return self._x
+    @property
+    def y(self):
+        return self._y
+    def __repr__(self):
+        return f"{type(self).__name__}(x={self.x}, y={self.y})"
+
+
+point = Point(21, 42)
+point.x
+point.y
+
+
+class Coordinate:
+    def __set_name__(self, owner, name):
+        self._name = name
+    def __get__(self, instance, owner):
+        return instance.__dict__[f"_{self._name}"]
+    def __set__(self, instance, value):
+        raise AttributeError(f"can't set attribute '{self._name}'")
+
+class Point:
+    x = Coordinate()
+    y = Coordinate()
+
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+    def __repr__(self):
+        return f"{type(self).__name__}(x={self.x}, y={self.y})"
+    
+    
+point = Point(21, 42)
+point.x
+point.y
+
+import math
+from collections import namedtuple
+
+
+class Point(namedtuple("Point", "x y")):
+    __slots__ = ()
+
+    def distance(self, other: "Point") -> float:
+        return math.dist((self.x, self.y), (other.x, other.y))
+    
+origin = Point(0, 0)
+point = Point(4, 3)
+point.distance(origin)
+
+
+from dataclasses import dataclass
+
+
+@dataclass
+class Color:
+    red: int
+    green: int
+    blue: int
+
+color = Color(255, 0, 0)
+color
+
+color.green = 128
+color
+
+color
+
