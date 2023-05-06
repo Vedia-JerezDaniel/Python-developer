@@ -112,3 +112,84 @@ def get_total_area(shapes):
     return sum(shape.calculate_area() for shape in shapes)
 
 get_total_area([Rectangle(10, 5), Square(5)])
+
+# Interface Segregation Principle (ISP)
+
+# Clients should not be forced to depend upon methods that they do not use. Interfaces belong to clients, not to hierarchies.
+
+# In this case, clients are classes and subclasses, and interfaces consist of methods and attributes. In other words, if a class doesn’t use particular methods or attributes, then those methods and attributes should be segregated into more specific classes.
+
+from abc import ABC, abstractmethod
+
+
+class Printer(ABC):
+    @abstractmethod
+    def print(self, document):
+        pass
+
+class Fax(ABC):
+    @abstractmethod
+    def fax(self, document):
+        pass
+
+class Scanner(ABC):
+    @abstractmethod
+    def scan(self, document):
+        pass
+
+class OldPrinter(Printer):
+    def print(self, document):
+        print(f"Printing {document} in black and white...")
+
+class NewPrinter(Printer, Fax, Scanner):
+    def print(self, document):
+        print(f"Printing {document} in color...")
+
+    def fax(self, document):
+        print(f"Faxing {document}...")
+
+    def scan(self, document):
+        print(f"Scanning {document}...")
+        
+# Dependency Inversion Principle (DIP)
+
+# The dependency inversion principle (DIP) is the last principle in the SOLID set. This principle states that:
+
+# Abstractions should not depend upon details. Details should depend upon abstractions.
+
+# To fix the issue, you can apply the dependency inversion principle and make your classes depend on abstractions rather than on concrete implementations like BackEnd. In this specific example, you can introduce a DataSource class that provides the interface to use in your concrete classes:
+
+
+from abc import ABC, abstractmethod
+
+
+class FrontEnd:
+    def __init__(self, data_source):
+        self.data_source = data_source
+
+    def display_data(self):
+        data = self.data_source.get_data()
+        print("Display data:", data)
+
+class DataSource(ABC):
+    @abstractmethod
+    def get_data(self):
+        pass
+
+class Database(DataSource):
+    def get_data(self):
+        return "Data from the database"
+
+class API(DataSource):
+    def get_data(self):
+        return "Data from the API"
+    
+# In this redesign of your classes, you’ve added a DataSource class as an abstraction that provides the required interface, or the .get_data() method. Note how FrontEnd now depends on the interface provided by DataSource, which is an abstraction.
+
+# Then you define the Database class, which is a concrete implementation for those cases where you want to retrieve the data from your database. This class depends on the DataSource abstraction through inheritance. Finally, you define the API class to support retrieving the data from the REST API. This class also depends on the DataSource abstraction.
+
+db_front_end = FrontEnd(Database())
+db_front_end.display_data()
+
+api_front_end = FrontEnd(API())
+api_front_end.display_data()
