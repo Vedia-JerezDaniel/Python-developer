@@ -1,6 +1,12 @@
 # LEARNING CLASSES
 # https://realpython.com/python-classes/#getting-started-with-python-classes
 
+# More easy
+
+# https://realpython.com/python-data-classes/
+
+
+
 # n a class body, you can define attributes and methods as needed. As you already learned, attributes are variables that hold the class data, while methods are functions that provide behavior and typically act on the class data.
 
 import math
@@ -328,3 +334,318 @@ jane.name
 jane.name = "Jane Doe"
 jane.name
 
+
+# Exploring Specialized Classes From the Standard Library
+
+from dataclasses import dataclass
+
+
+@dataclass
+class ThreeDPoint:
+    x: int | float
+    y: int | float
+    z: int | float
+
+    @classmethod
+    def from_sequence(cls, sequence):
+        return cls(*sequence)
+
+    @staticmethod
+    def show_intro_message(name):
+        print(f"Hey {name}! This is your 3D Point!")
+
+
+from dataclasses import astuple
+
+point_1 = ThreeDPoint(1.0, 2.0, 3.0)
+point_1
+
+astuple(point_1)
+
+point_2 = ThreeDPoint(2, 3, 4)
+point_1 == point_2
+
+
+point_3 = ThreeDPoint(1, 2, 3)
+point_1 == point_3
+
+
+# Enumerations
+# An enumeration, or just enum, is a data type that you’ll find in several programming languages. Enums allow you to create sets of named constants, which are known as members and can be accessed through the enumeration itself.
+
+from enum import Enum
+
+
+class WeekDay(Enum):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
+    SUNDAY = 7
+    
+    @classmethod
+    def favorite_day(cls):
+        return cls.FRIDAY
+
+    def __str__(self):
+        return f"Current day: {self.name}"
+    
+list(WeekDay)
+
+# Dot notation
+WeekDay.MONDAY
+# Call notation
+WeekDay(2)
+# Dictionary notation
+WeekDay["WEDNESDAY"]
+
+for day in WeekDay:
+    print(day.name, "->", day.value)
+
+WeekDay.favorite_day()
+
+print(WeekDay.FRIDAY)
+
+# Simple Inheritance
+# When you have a class that inherits from a single parent class, then you’re using single-base inheritance or just simple inheritance. To make a Python class inherit from another, you need to list the parent class’s name in parentheses after the child class’s name in the definition.
+
+class Parent:
+    # Parent's definition goes here...
+    pass
+
+class Child(Parent):
+    # Child definitions goes here...
+    pass
+
+
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self._started = False
+
+    def start(self):
+        print("Starting engine...")
+        self._started = True
+
+    def stop(self):
+        print("Stopping engine...")
+        self._started = False
+        
+        
+class Car(Vehicle):
+    def __init__(self, make, model, year, num_seats):
+        super().__init__(make, model, year)
+        self.num_seats = num_seats
+
+    def drive(self):
+        print(f'Driving my "{self.make} - {self.model}" on the road')
+
+    def __str__(self):
+        return f'"{self.make} - {self.model}" has {self.num_seats} seats'
+    
+
+tesla = Car("Tesla", "Model S", 2022, 5)
+tesla.start()
+tesla.drive()
+tesla.stop()
+print(tesla)
+
+class Animal:
+    def __init__(self, name, sex, habitat):
+        self.name = name
+        self.sex = sex
+        self.habitat = habitat
+
+class Mammal(Animal):
+    unique_feature = "Mammary glands"
+
+class Bird(Animal):
+    unique_feature = "Feathers"
+
+class Fish(Animal):
+    unique_feature = "Gills"
+
+class Dog(Mammal):
+    def walk(self):
+        print("The dog is walking")
+
+class Cat(Mammal):
+    def walk(self):
+        print("The cat is walking")
+
+class Eagle(Bird):
+    def fly(self):
+        print("The eagle is flying")
+
+class Penguin(Bird):
+    def swim(self):
+        print("The penguin is swimming")
+
+class Salmon(Fish):
+    def swim(self):
+        print("The salmon is swimming")
+
+class Shark(Fish):
+    def swim(self):
+        print("The shark is swimming")
+        
+# Extended vs Overridden Methods
+
+class Aircraft:
+    def __init__(self, thrust, lift, max_speed):
+        self.thrust = thrust
+        self.lift = lift
+        self.max_speed = max_speed
+
+    def show_technical_specs(self):
+        print(f"Thrust: {self.thrust} kW")
+        print(f"Lift: {self.lift} kg")
+        print(f"Max speed: {self.max_speed} km/h")
+
+class Helicopter(Aircraft):
+    def __init__(self, thrust, lift, max_speed, num_rotors):
+        super().__init__(thrust, lift, max_speed)
+        self.num_rotors = num_rotors
+
+    def show_technical_specs(self):
+        super().show_technical_specs()
+        print(f"Number of rotors: {self.num_rotors}")
+
+sikorsky_UH60 = Helicopter(1490, 9979, 278, 2)
+sikorsky_UH60.show_technical_specs()
+
+
+class Worker:
+    def __init__(self, name, address, hourly_salary):
+        self.name = name
+        self.address = address
+        self.hourly_salary = hourly_salary
+
+    def show_profile(self):
+        print("== Worker profile ==")
+        print(f"Name: {self.name}")
+        print(f"Address: {self.address}")
+        print(f"Hourly salary: {self.hourly_salary}")
+
+    def calculate_payroll(self, hours=40):
+        return self.hourly_salary * hours
+    
+class Manager(Worker):
+    def __init__(self, name, address, hourly_salary, hourly_bonus):
+        super().__init__(name, address, hourly_salary)
+        self.hourly_bonus = hourly_bonus
+
+    def calculate_payroll(self, hours=40):
+        return (self.hourly_salary + self.hourly_bonus) * hours
+    
+
+class Vehicle:
+    def __init__(self, make, model, color):
+        self.make = make
+        self.model = model
+        self.color = color
+
+    def start(self):
+        print("Starting the engine...")
+
+    def stop(self):
+        print("Stopping the engine...")
+
+    def show_technical_specs(self):
+        print(f"Make: {self.make}")
+        print(f"Model: {self.model}")
+        print(f"Color: {self.color}")
+
+class Car(Vehicle):
+    def drive(self):
+        print("Driving on the road...")
+
+class Aircraft(Vehicle):
+    def fly(self):
+        print("Flying in the sky...")
+
+class FlyingCar(Car, Aircraft):
+    pass
+
+space_flyer = FlyingCar("Space", "Flyer", "Black")
+space_flyer.show_technical_specs()
+
+space_flyer.start()
+
+space_flyer.drive()
+
+space_flyer.fly()
+
+space_flyer.stop()
+
+
+# Benefits of Using Inheritance
+# Inheritance is a powerful tool that you can use to model and solve many real-world problems in your code. Some benefits of using inheritance include the following:
+
+# Reusability: You can quickly inherit and reuse working code from one or more parent classes in as many subclasses as you need.
+# Modularity: You can use inheritance to organize your code in hierarchies of related classes.
+# Maintainability: You can quickly fix issues or add features to a parent class. These changes will be automatically available in all its subclasses. Inheritance also reduces code duplication.
+# Polymorphism: You can create subclasses that can replace their parent class, providing the same or equivalent functionality.
+# Extensibility: You can quickly extend an exiting class by adding new data and behavior to its subclasses.
+
+
+class Stack:
+    def __init__(self, items=None):
+        self._items = [] if items is None else list(items)
+
+    def push(self, item):
+        self._items.append(item)
+
+    def pop(self):
+        return self._items.pop()
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}({self._items})"
+    
+
+stack = Stack([1, 2, 3])
+stack
+
+stack.push(4)
+stack
+
+stack.pop()
+stack.pop()
+stack
+
+dir(stack)
+
+
+from abc import ABC, abstractmethod
+from math import pi
+
+
+class Shape(ABC):
+    @abstractmethod
+    def get_area(self):
+        pass
+
+    @abstractmethod
+    def get_perimeter(self):
+        pass
+    
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def get_area(self):
+        return pi * self.radius ** 2
+    
+    def get_perimeter(self):
+        return 2 * pi * self.radius
+    
+    
+circle = Circle(100)
+circle.radius
+
+circle.get_area()
+circle.get_perimeter()
