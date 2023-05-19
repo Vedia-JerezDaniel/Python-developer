@@ -24,3 +24,4 @@ def myfunc(a, b=999, *args):
 
 myfunc(10)
 myfunc(10,20)
+
