@@ -25,3 +25,8 @@ def myfunc(a, b=999, *args):
 myfunc(10)
 myfunc(10,20)
 
+def myfunc(a, b, **kwargs):
+    return f'{a=}, {b=}, {kwargs=}'
+
+myfunc(10, 20, x=30, y=40, z=50)
+# kwargs is a dictionary 
