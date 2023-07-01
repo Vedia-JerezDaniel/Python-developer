@@ -170,3 +170,166 @@ user_dict_initialization = min(
 print(
     f"UserDict is {user_dict_initialization / dict_initialization:.3f}",
     "times slower than dict",)
+
+# CALL CLASSES
+
+def greet():
+    print("Hello, World!")
+
+
+dir(greet)
+
+greet.__call__()
+
+callable(greet)
+
+
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def increment(self):
+        self.count += 1
+
+    def __call__(self):
+        self.increment()
+        
+counter = Counter()
+counter.increment()
+counter()
+counter.count
+
+
+class PowerFactory:
+    def __init__(self, exponent=2):
+        self.exponent = exponent
+
+    def __call__(self, base):
+        return base**self.exponent
+    
+cube_of = PowerFactory(3)
+cube_of(3)
+
+cube_of(6)
+
+
+class Demo:
+    def __init__(self, attr):
+        print(f"Initialize an instance of {self.__class__.__name__}")
+        self.attr = attr
+        print(f"{self.attr = }")
+
+    def __call__(self, arg):
+        print(f"Call an instance of {self.__class__.__name__} with {arg}")
+    
+
+demo = Demo("Some initial value")
+demo("Hello!")
+
+class CumulativeAverager:
+    def __init__(self):
+        self.data = []
+
+    def __call__(self, new_value):
+        self.data.append(new_value)
+        return sum(self.data) / len(self.data)
+    
+stream_average = CumulativeAverager()
+
+dir(stream_average)
+stream_average(12)
+stream_average(13)
+stream_average(11)
+stream_average(10)
+
+stream_average.data
+
+
+class Factorial:
+    def __init__(self):
+        self.cache = {0: 1, 1: 1}
+
+    def __call__(self, number):
+        if number not in self.cache:
+            self.cache[number] = number * self(number - 1)
+        return self.cache[number]
+    
+    
+factorial_of = Factorial()
+
+factorial_of(4)
+factorial_of(5)
+factorial_of(6)
+factorial_of(1)
+
+factorial_of.cache
+
+
+import time
+
+class ExecutionTimer:
+    def __init__(self, repetitions=1):
+        self.repetitions = repetitions
+
+    def __call__(self, func):
+        def timer(*args, **kwargs):
+            result = None
+            total_time = 0
+            print(f"Running {func.__name__}() {self.repetitions} times")
+            for _ in range(self.repetitions):
+                start = time.perf_counter()
+                result = func(*args, **kwargs)
+                end = time.perf_counter()
+                total_time += end - start
+            average_time = total_time / self.repetitions
+            print(
+                f"{func.__name__}() takes "
+                f"{average_time * 1000:.4f} ms on average"
+            )
+            return result
+
+        return timer
+    
+
+@ExecutionTimer(repetitions=100)
+def sum(numbers):
+    return [(number + 2)**3 for number in numbers]
+
+
+sum(list(range(10)))
+
+
+import json
+import yaml
+
+class JsonSerializer:
+    def __call__(self, data):
+        return json.dumps(data, indent=4)
+
+class YamlSerializer:
+    def __call__(self, data):
+        return yaml.dump(data)
+
+class DataSerializer:
+    def __init__(self, serializing_strategy):
+        self.serializing_strategy = serializing_strategy
+
+    def serialize(self, data):
+        return self.serializing_strategy(data)
+    
+data = {
+    "name": "Jane Doe",
+    "age": 30,
+    "city": "Salt Lake City",
+    "job": "Python Developer",
+}
+
+dir(data)
+
+
+serializer = DataSerializer(JsonSerializer())
+print(f"JSON:\n{serializer.serialize(data)}")
+
+# Switch strategy
+serializer.serializing_strategy = YamlSerializer()
+print(f"YAML:\n{serializer.serialize(data)}")
