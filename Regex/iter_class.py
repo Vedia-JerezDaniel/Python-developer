@@ -15,13 +15,10 @@ class SequenceIterator:
         self._index += 1
         return item
     
-
 for item in SequenceIterator([1, 2, 3, 4]):
     print(item)
     
-
 sequence = SequenceIterator([1, 2, 3, 4])
-
 # Get an iterator over the data
 iterator = sequence.__iter__()
 while True:
@@ -31,7 +28,6 @@ while True:
         print(item)
     except StopIteration:
         break
-
 
 class SquareIterator:
     def __init__(self, sequence):
@@ -48,7 +44,6 @@ class SquareIterator:
         self._index += 1
         return square
     
-
 class FibonacciIterator:
     def __init__(self, stop=10):
         self._stop = stop
@@ -71,7 +66,6 @@ class FibonacciIterator:
 for fib_number in FibonacciIterator():
     print(fib_number)
     
-
 def fibonacci_generator(stop=10):
     current_fib, next_fib = 0, 1
     index = 0
@@ -86,26 +80,20 @@ def fibonacci_generator(stop=10):
 list(fibonacci_generator(15))
 
 # Returning Iterators Instead of Container Type
-
 def square_list(sequence):
     return [item**2 for item in sequence]
 
 numbers = [1, 2, 3, 4, 5]
 square_list(numbers)
 
-
 def to_square(numbers):
     return (number**2 for number in numbers)
-
 def to_cube(numbers):
     return (number**3 for number in numbers)
-
 def to_even(numbers):
     return (number for number in numbers if number % 2 == 0)
-
 def to_odd(numbers):
     return (number for number in numbers if number % 2 != 0)
-
 def to_string(numbers):
     return (str(number) for number in numbers)
 
@@ -114,18 +102,15 @@ sample = range(20)
 list(to_string(to_square(to_even(range(20)))))
 list(to_string(to_cube(to_odd(range(20)))))
 
-
 ## Understanding Some Constraints of Python Iterators
-
 numbers_iter = SequenceIterator([1, 2, 3, 4])
 
 for number in numbers_iter:
     print(number)
 
-# esto ya no corre porque el iterador ya se agoto
+#* esto ya no corre porque el iterador ya se agoto
 for number in numbers_iter:
     print(number)
-
 
 numbers_iter = SequenceIterator([1, 2, 3, 4,5,6,7])
 
