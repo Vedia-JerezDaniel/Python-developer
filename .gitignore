@@ -1,1 +1,4 @@
 /Parallel/*.zip
+*.xml
+*.iml
+.idea/*.xml
