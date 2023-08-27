@@ -81,3 +81,23 @@ value = [150, 100, 90, 140, 120]
 capacity = 150
 
 print(fractional_knapsack(value, weight, capacity))
+
+# MINDBREAKER: EGYPTIAN FRACTIONS
+# --VERY SIMPLISTIC PROGRAM--
+
+import math
+def egyptian_frac(numerator, denominator):
+    egypt_lst = []
+    while numerator != 0:
+        x = math.ceil(denominator/numerator)
+        egypt_lst.append(x)
+
+        numerator = x * numerator - denominator
+        denominator *= x
+    str = ""
+    for ones in egypt_lst:
+        str += "1/{0} + ".format(ones)
+    final_string = str[:-3]
+    return final_string
+
+print(egyptian_frac(7, 12))
