@@ -134,3 +134,35 @@ a = [['a', 'a', 'a'],
 
 str = ""
 print(palindromic_path(str, a, 0, 0, 3, 3))
+
+You can replace the 'Y' values where 'Y' is 0 with the corresponding 'X' values using Python and pandas, a popular data manipulation library. Here's how you can do it:
+
+
+
+
+
+import pandas as pd
+
+# Create a DataFrame with your data
+data = {'id': [1, 2, 3, 4, 5],
+        'X': [10, 20, 35, 45, 55],
+        'Y': [1, 0, 3, 0, 5]}
+df = pd.DataFrame(data)
+df
+# Replace 'Y' values where 'Y' is 0 with the corresponding 'X' values
+df.loc[df['Y'] == 0, 'Y'] = df.loc[df['Y'] == 0, 'X']
+
+# Replace 'Y' values where 'Y' is 0 with the corresponding 'X' values, except for 'id' 4
+df['Y'] = df.apply(lambda row: row['X'] if row['id'] != 4 and row['Y'] == 0 else 12 if row['id'] == 4 else row['Y'], axis=1)
+
+for index, row in df.iterrows():
+    if row['Y'] == 0:
+        if row['id'] == 4:
+            df.at[index, 'Y'] = 12
+        else:
+            df.at[index, 'Y'] = row['X']
+
+# Print the updated DataFrame
+print(df)
+
+
